@@ -43,7 +43,7 @@ func main() {
 			log.Fatal(err)
 		}
 		seq++
-		log.Println("new client", seq)
+		log.Println(logStr(), "new client", seq)
 
 		go func(conn *server.Conn, seq int) {
 			for {
@@ -54,6 +54,10 @@ func main() {
 			}
 		}(conn, seq)
 	}
+}
+
+func logStr() string {
+	return fmt.Sprintf("[%s]", time.Unix(time.Now().Unix(), 0).Format("2006-01-02 15:04:05"))
 }
 
 var header = []string{"id", "extra_data", "create_time"}
