@@ -24,7 +24,11 @@ func main() {
 		SleepMs, _ = strconv.Atoi(sm)
 	}
 	initBenchTabRows()
-	host, port, user, pass := get_inner_ip()["inner"], 3306, "root", "supersecret"
+	ipSection := "inner"
+	if os.Getenv("HOST_127") == "1" {
+		ipSection = "loopback"
+	}
+	host, port, user, pass := get_inner_ip()[ipSection], 3306, "root", "supersecret"
 	// Listen for connections on localhost port 4000
 	l, err := net.Listen("tcp", fmt.Sprintf("%s:%d", host, port))
 	if err != nil {
